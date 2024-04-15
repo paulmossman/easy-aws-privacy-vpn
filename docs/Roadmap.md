@@ -1,10 +1,10 @@
 # EAPV Roadmap
 
-## Windows eapv-<Region>-aws-backend.bat script file
+## Windows eapv-<Region Code>-aws-backend.bat script file
 
 A version of the bash script that works on Windows.
 
-PowerShell scripts require 
+PowerShell scripts don't easily run from the command-line by default, so use a batch file.
 
 ## Include a new VPC in the per-Region setup
 
