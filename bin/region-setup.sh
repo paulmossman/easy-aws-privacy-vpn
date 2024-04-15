@@ -27,7 +27,7 @@ source ${SCRIPTPATH}/constants.sh
 
 # Get the default VPC for this Region.
 VPC_ID=`aws ec2 describe-vpcs --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json \
-   --filters Name=is-default,Values=true | jq -r '.Vpcs.[0].VpcId'`
+   --filters Name=is-default,Values=true | jq -r '.Vpcs[0].VpcId'`
 
 # Get the VPC's default Security Group.
 SG_ID=`aws ec2 describe-security-groups --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json \
