@@ -22,11 +22,11 @@ else
    PROFILE="default"
 fi
 
-# Requires DEPLOY_REGION and PROFILE.
+# Requires DEPLOY_REGION and (if running outside of CloudShell) PROFILE.
 source ${SCRIPTPATH}/constants.sh
 
 # Ensure there's no "Active" stack.  (Otherwise the main Region stack can't be deleted because the VPN Client Endpoint has a target subnet associated.)
-aws cloudformation delete-stack --stack-name ${REGION_ACTIVE_STACK_NAME} --region ${DEPLOY_REGION} --profile ${PROFILE} --output json > /dev/null
+aws cloudformation delete-stack --stack-name ${REGION_ACTIVE_STACK_NAME} --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json > /dev/null
 RESULT=$?
 if [ $RESULT -eq 0 ]; then
    # Wait for the delation to complete, otherwise the next deletion will fail.
@@ -34,7 +34,7 @@ if [ $RESULT -eq 0 ]; then
 fi
 
 # Delete the Region configuration stack, and wait for it to complete.  (Otherwise the certs can't be deleted, because they're in use.)
-aws cloudformation delete-stack --stack-name ${REGION_CONFIG_STACK_NAME} --region ${DEPLOY_REGION} --profile ${PROFILE} --output json > /dev/null
+aws cloudformation delete-stack --stack-name ${REGION_CONFIG_STACK_NAME} --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json > /dev/null
 check_delete_stack_status_and_wait $? ${REGION_CONFIG_STACK_NAME}
 
 # Remove the ACM certificates.
@@ -42,6 +42,6 @@ delete_acm_certificate_by_name server.easy-aws-privacy-vpn
 delete_acm_certificate_by_name client.easy-aws-privacy-vpn
 
 # Remove the S3 content.
-aws s3 rm ${S3_REGION_DIR_URI}/config.json --region ${DEPLOY_REGION} --profile ${PROFILE} > /dev/null
+aws s3 rm ${S3_REGION_DIR_URI}/config.json --region ${DEPLOY_REGION} ${PROFILE_OPTION} > /dev/null
 
 echo "Success!"

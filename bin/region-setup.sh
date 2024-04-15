@@ -22,19 +22,19 @@ else
    PROFILE="default"
 fi
 
-# Requires DEPLOY_REGION and PROFILE.
+# Requires DEPLOY_REGION and (if running outside of CloudShell) PROFILE.
 source ${SCRIPTPATH}/constants.sh
 
 # Get the default VPC for this Region.
-VPC_ID=`aws ec2 describe-vpcs --region ${DEPLOY_REGION} --profile ${PROFILE} --output json \
+VPC_ID=`aws ec2 describe-vpcs --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json \
    --filters Name=is-default,Values=true | jq -r '.Vpcs.[0].VpcId'`
 
 # Get the VPC's default Security Group.
-SG_ID=`aws ec2 describe-security-groups --region ${DEPLOY_REGION} --profile ${PROFILE} --output json \
+SG_ID=`aws ec2 describe-security-groups --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json \
    --filters Name=vpc-id,Values=${VPC_ID} Name=group-name,Values=default | jq -r '.SecurityGroups[0].GroupId'`
 
 # Arbitrarily pick one of the VPC's available Subnets.
-SUBNET_ID=`aws ec2 describe-subnets --region ${DEPLOY_REGION} --profile ${PROFILE} --output json \
+SUBNET_ID=`aws ec2 describe-subnets --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json \
    --filters Name=vpc-id,Values=${VPC_ID} | jq -r '.Subnets[0].SubnetId'`
 
 # Record various configuration for the Region setup, and store it in S3.
@@ -48,7 +48,7 @@ cat <<EOF > config.json
 }
 EOF
 aws s3 cp config.json ${S3_REGION_DIR_URI}/config.json \
-   --region ${DEPLOY_REGION} --profile ${PROFILE} \
+   --region ${DEPLOY_REGION} ${PROFILE_OPTION} \
    --output json > /dev/null
 rm config.json
 
@@ -77,7 +77,7 @@ ACM_SERVER_IMPORT_OUTPUT=`aws acm import-certificate \
    --private-key fileb://pki/private/server.easy-aws-privacy-vpn.key \
    --certificate-chain fileb://pki/ca.crt \
    --tags "Key"="Name","Value"="Server - Easy AWS Privacy VPN" \
-   --region ${DEPLOY_REGION} --profile ${PROFILE} --output json`
+   --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json`
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
    echo "ERROR: Import server certificate failed." >&2
@@ -89,7 +89,7 @@ ACM_CLIENT_IMPORT_OUTPUT=`aws acm import-certificate \
    --private-key fileb://pki/private/client.easy-aws-privacy-vpn.key \
    --certificate-chain fileb://pki/ca.crt \
    --tags "Key"="Name","Value"="Client - Easy AWS Privacy VPN" \
-   --region ${DEPLOY_REGION} --profile ${PROFILE} --output json`
+   --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json`
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
    echo "ERROR: Import client certificate failed." >&2
@@ -105,16 +105,16 @@ aws cloudformation create-stack --stack-name ${REGION_CONFIG_STACK_NAME} \
       ParameterKey=ClientCertificateArn,ParameterValue="${ACM_CLIENT_ARN}" \
       ParameterKey=VpcId,ParameterValue="${VPC_ID}" \
       ParameterKey=SecurityGroupId,ParameterValue="${SG_ID}" \
-   --region ${DEPLOY_REGION} --profile ${PROFILE} --output json > /dev/null
+   --region ${DEPLOY_REGION} ${PROFILE_OPTION} --output json > /dev/null
 check_create_stack_status_and_wait $? ${REGION_CONFIG_STACK_NAME}
 popd > /dev/null
 
 CLIENT_VPN_ENDPOINT_ID=`aws cloudformation describe-stacks --stack-name ${REGION_CONFIG_STACK_NAME} \
-   --profile ${PROFILE} --region ${DEPLOY_REGION} --output json \
+   ${PROFILE_OPTION} --region ${DEPLOY_REGION} --output json \
    | jq -r '.Stacks[0].Outputs[] | select(.OutputKey=="ClientVpnEndpointId") | .OutputValue'`
 
 S3_BUCKET_REGION=`aws s3api get-bucket-location --bucket ${S3_BUCKET_NAME} \
-   --profile ${PROFILE} --region ${DEPLOY_REGION} --output json \
+   ${PROFILE_OPTION} --region ${DEPLOY_REGION} --output json \
    | jq -r '.LocationConstraint'`
 
 # Create the client backend scripts.
@@ -135,7 +135,7 @@ rm -f *.bak
 
 # Create the OVPN configuration file.
 aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${CLIENT_VPN_ENDPOINT_ID} \
-   --profile ${PROFILE} --region ${DEPLOY_REGION} \
+   ${PROFILE_OPTION} --region ${DEPLOY_REGION} \
    --output text > eapv-${DEPLOY_REGION}.ovpn
 RESULT=$?
 if [ $RESULT -ne 0 ]; then

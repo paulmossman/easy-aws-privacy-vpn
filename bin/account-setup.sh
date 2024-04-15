@@ -17,19 +17,19 @@ else
     PROFILE="default"
 fi
 
-# Requires DEPLOY_REGION and PROFILE.
+# Requires DEPLOY_REGION and (if running outside of CloudShell) PROFILE.
 source ${SCRIPTPATH}/constants.sh
 
 pushd ${SCRIPTPATH}/../CloudFormation/ > /dev/null
 aws cloudformation create-stack --stack-name ${ACCOUNT_CONFIG_STACK_NAME} \
     --template-body "file://./PerAccount.yml" \
     --capabilities CAPABILITY_NAMED_IAM \
-    --profile ${PROFILE} --region ${DEPLOY_REGION} --output json > /dev/null
+    ${PROFILE_OPTION} --region ${DEPLOY_REGION} --output json > /dev/null
 check_create_stack_status_and_wait $? ${ACCOUNT_CONFIG_STACK_NAME} ${REGION}
 
 # Store the "Active" stack template in S3, so it doesn't need to be downloaded.
 aws s3 cp RegionVpnActivate.yml ${S3_BUCKET_URI}/RegionVpnActivate.yml \
-    --region ${DEPLOY_REGION} --profile ${PROFILE} \
+    --region ${DEPLOY_REGION} ${PROFILE_OPTION} \
     --output json > /dev/null
 
 echo "Success!"
