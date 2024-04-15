@@ -118,9 +118,9 @@ S3_BUCKET_REGION=`aws s3api get-bucket-location --bucket ${S3_BUCKET_NAME} \
    | jq -r '.LocationConstraint'`
 
 # Create the client backend scripts.
-cp script_templates/eapv-REGION-aws-backend.sh eapv-${DEPLOY_REGION}-aws-backend.sh
-cp script_templates/eapv-REGION-aws-backend.bat eapv-${DEPLOY_REGION}-aws-backend.bat
-client_script_files=("eapv-${DEPLOY_REGION}-aws-backend.sh" "eapv-${DEPLOY_REGION}-aws-backend.bat")
+cp script_templates/eapv-REGION-aws-backend.sh ../eapv-${DEPLOY_REGION}-aws-backend.sh
+cp script_templates/eapv-REGION-aws-backend.bat ../eapv-${DEPLOY_REGION}-aws-backend.bat
+client_script_files=("../eapv-${DEPLOY_REGION}-aws-backend.sh" "../eapv-${DEPLOY_REGION}-aws-backend.bat")
 for client_script_file in "${client_script_files[@]}" ; do
    sed -i.bak -e "s/SUB_DEPLOY_REGION/${DEPLOY_REGION}/g" "$client_script_file"
    sed -i.bak -e "s/SUB_VPC_ID/${VPC_ID}/g" "$client_script_file"
