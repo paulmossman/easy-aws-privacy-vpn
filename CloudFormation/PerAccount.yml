@@ -1,0 +1,97 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Per-Account configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+Resources:
+
+  IAMManagedPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Description: "Permissions required on the client computer for stating and stopping the AWS backend: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+    Properties:
+      ManagedPolicyName: "easy-aws-privacy-vpn"
+      # See ../docs/Security.md for details.
+      PolicyDocument: !Sub |
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "ec2:DescribeClientVpnEndpoints",
+
+                      "ec2:DescribeClientVpnTargetNetworks",
+                      "ec2:AssociateClientVpnTargetNetwork",
+                      "ec2:DisassociateClientVpnTargetNetwork",
+
+                      "ec2:DescribeClientVpnRoutes",
+                      "ec2:CreateClientVpnRoute",
+                      "ec2:DeleteClientVpnRoute"
+                  ],
+                  "Resource": "arn:aws:ec2:*:${AWS::AccountId}:client-vpn-endpoint/*",
+                  "Condition": {
+                    "StringEquals": {"aws:ResourceTag/Application": "easy-aws-privacy-vpn"}
+                  }
+              },
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "ec2:AssociateClientVpnTargetNetwork",
+                      "ec2:DisassociateClientVpnTargetNetwork",
+
+                      "ec2:CreateClientVpnRoute",
+                      "ec2:DeleteClientVpnRoute"
+                  ],
+                  "Resource": "arn:aws:ec2:*:${AWS::AccountId}:subnet/*"
+              },
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "cloudformation:CreateStack",
+                      "cloudformation:DeleteStack",
+                      "cloudformation:DescribeStacks"
+                  ],
+                  "Resource": "arn:aws:cloudformation:*:${AWS::AccountId}:stack/eapv-region-active/*"
+              },
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "s3:ListBucket",
+                      "s3:GetObject"
+                  ],
+                  "Resource": "arn:aws:s3:::easy-aws-privacy-vpn-${AWS::AccountId}/*"
+              }
+          ]
+        }
+
+  IAMUser:
+    Type: "AWS::IAM::User"
+    Properties:
+      Path: "/"
+      UserName: "easy-aws-privacy-vpn"
+      ManagedPolicyArns: 
+      - !Ref IAMManagedPolicy
+      Tags: 
+      - Key: "Application"
+        Value: "easy-aws-privacy-vpn"
+    DependsOn: IAMManagedPolicy
+
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub 'easy-aws-privacy-vpn-${AWS::AccountId}'
+      BucketEncryption: 
+        ServerSideEncryptionConfiguration: 
+        -
+          ServerSideEncryptionByDefault: 
+            SSEAlgorithm: "AES256"
+          BucketKeyEnabled: true
+      OwnershipControls: 
+        Rules: 
+        -
+          ObjectOwnership: "BucketOwnerEnforced"
+      PublicAccessBlockConfiguration: 
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags: 
+      - Key: "Application"
+        Value: "easy-aws-privacy-vpn"

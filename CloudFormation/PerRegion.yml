@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Per-Region configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+
+Parameters:
+
+  ServerCertificateArn:
+    Type: String
+  ClientCertificateArn:
+    Type: String
+  VpcId:
+    Type: String
+  SecurityGroupId:
+    Type: String
+
+Resources:
+
+  ClientVpnEndpoint:
+    Type: "AWS::EC2::ClientVpnEndpoint"
+    Properties:
+      Description: "easy-aws-privacy-vpn Client VPN Endpoint"
+      ClientCidrBlock: "172.32.0.0/22"
+      TransportProtocol: "udp"
+      ServerCertificateArn: !Ref ServerCertificateArn
+      AuthenticationOptions: 
+      - 
+        Type: "certificate-authentication"
+        MutualAuthentication: 
+          ClientRootCertificateChainArn: !Ref ClientCertificateArn
+      ConnectionLogOptions: 
+        Enabled: false
+      TagSpecifications: 
+      - 
+        ResourceType: "client-vpn-endpoint"
+        Tags: 
+        - Key: "Name"
+          Value: "easy-aws-privacy-vpn"
+        - Key: "Application"
+          Value: "easy-aws-privacy-vpn"
+      VpnPort: 443
+      SecurityGroupIds: 
+      - !Ref SecurityGroupId
+      VpcId: !Ref VpcId
+      SplitTunnel: false
+      ClientConnectOptions: 
+        Enabled: false
+
+  InternetAccessVpnAuthorizationRule:
+    Type: "AWS::EC2::ClientVpnAuthorizationRule"
+    Properties:
+      Description: "easy-aws-privacy-vpn Internet access Authorization Rule"
+      ClientVpnEndpointId: !Ref ClientVpnEndpoint
+      AuthorizeAllGroups: true
+      TargetNetworkCidr: "0.0.0.0/0"
+
+Outputs:
+  ClientVpnEndpointId:
+    Value: !Ref ClientVpnEndpoint
