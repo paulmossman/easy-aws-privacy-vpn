@@ -1,7 +1,7 @@
 config.json
 easy-rsa
 pki
-eapv-*-aws-backend.sh
-eapv-*-aws-backend.bat
+/eapv-*-aws-backend.sh
+/eapv-*-aws-backend.bat
 *.bak
 eapv-*.ovpn
