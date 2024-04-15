@@ -48,7 +48,6 @@ In the CloudShell terminal run:
 ```bash
 git clone https://github.com/paulmossman/easy-aws-privacy-vpn
 cd easy-aws-privacy-vpn
-chmod +x ./bin/*
 ./bin/account-setup.sh
 ```
 
@@ -124,6 +123,7 @@ Open a command-line session on your **local computer**.  i.e. ```cmd``` or Power
 
 Mac or Linux:
 ```bash
+chmod +x eapv-*-aws-backend.sh
 ./eapv-<Region Code>-aws-backend.sh start
 ```
 Windows:
