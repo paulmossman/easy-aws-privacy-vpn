@@ -108,8 +108,8 @@ The command in the previous step will list the names of the two files to downloa
 Start the AWS VPN Client software, then:
 - File → Manage profiles
 - click "Add Profile"
-    - Display Name: "EAPV \<Region\>", where \<Region\> is the Region Code
-    - VPN Configuration File: The .ovpn file downloaded in the previous step
+    - Display Name: "EAPV \<Region\>", where \<Region\> is the Region Code. (Or choose whatever name you want.)
+    - VPN Configuration File: The ```.ovpn``` file downloaded in the previous step
     - click "Add Profile"
 - click "Done"
 
