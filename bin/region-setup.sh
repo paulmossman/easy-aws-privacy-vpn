@@ -131,7 +131,7 @@ for client_script_file in "${client_script_files[@]}" ; do
    sed -i.bak -e "s/SUB_S3_BUCKET_NAME/${S3_BUCKET_NAME}/g" "$client_script_file"
    sed -i.bak -e "s/SUB_S3_BUCKET_REGION/${S3_BUCKET_REGION}/g" "$client_script_file"
 done
-rm -f *.bak
+rm -f ${DOWNLOAD_DIR}/*.bak
 
 # Create the OVPN configuration file.
 aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${CLIENT_VPN_ENDPOINT_ID} \
