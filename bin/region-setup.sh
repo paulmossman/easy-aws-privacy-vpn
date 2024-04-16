@@ -136,7 +136,7 @@ rm -f *.bak
 # Create the OVPN configuration file.
 aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${CLIENT_VPN_ENDPOINT_ID} \
    ${PROFILE_OPTION} --region ${DEPLOY_REGION} \
-   --output text > ${VPN_CONFIG_FILE} PWM
+   --output text > ${VPN_CONFIG_FILE}
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
    echo "ERROR: Export VPN client configuration failed." >&2
