@@ -9,7 +9,7 @@
 | Unlimited use for flat rate | 🔴 | 🟢 | 🟡 |
 | $0 when not in use | 🟢 | 🔴 | 🔴 |
 | Cheap for one-time or occassional use | 🟢 | 🔴 | 🟢/🔴 |
-| Resilient (no [SPOF](https://en.wikipedia.org/wiki/Single_point_of_failure)) | 🟢 | 🟢 | 🔴 |
+| Resilient (fewest [SPOF](https://en.wikipedia.org/wiki/Single_point_of_failure)) | 🟡 | 🟢 | 🔴 |
 
 # Cost
 
@@ -32,9 +32,11 @@ Risk: If you only stop the VPN client connection, the backend in AWS continues t
 
 ## Commercial VPN
 
-Various prices, but the cheapest option for heavy use.  Also easiest to setup.
+Various prices, but generally flat rate for unlimited use and discounted for 1+ year terms.
 
 ## "free" AWS EC2 OpenVPN solution
+
+It isn't always free...
 
 ### AWS Data Transfer
 
