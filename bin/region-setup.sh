@@ -118,9 +118,9 @@ S3_BUCKET_REGION=`aws s3api get-bucket-location --bucket ${S3_BUCKET_NAME} \
    | jq -r '.LocationConstraint'`
 
 # Create the client backend scripts.
-cp script_templates/eapv-REGION-aws-backend.sh ../eapv-${DEPLOY_REGION}-aws-backend.sh
-cp script_templates/eapv-REGION-aws-backend.bat ../eapv-${DEPLOY_REGION}-aws-backend.bat
-client_script_files=("../eapv-${DEPLOY_REGION}-aws-backend.sh" "../eapv-${DEPLOY_REGION}-aws-backend.bat")
+cp script_templates/eapv-REGION-aws-backend.sh ${BACKEND_SCRIPT_BASH}
+cp script_templates/eapv-REGION-aws-backend.bat ${BACKEND_SCRIPT_WINDOWS}
+client_script_files=("${BACKEND_SCRIPT_BASH}" "${BACKEND_SCRIPT_WINDOWS}")
 for client_script_file in "${client_script_files[@]}" ; do
    sed -i.bak -e "s/SUB_DEPLOY_REGION/${DEPLOY_REGION}/g" "$client_script_file"
    sed -i.bak -e "s/SUB_VPC_ID/${VPC_ID}/g" "$client_script_file"
@@ -136,25 +136,25 @@ rm -f *.bak
 # Create the OVPN configuration file.
 aws ec2 export-client-vpn-client-configuration --client-vpn-endpoint-id ${CLIENT_VPN_ENDPOINT_ID} \
    ${PROFILE_OPTION} --region ${DEPLOY_REGION} \
-   --output text > eapv-${DEPLOY_REGION}.ovpn
+   --output text > ${VPN_CONFIG_FILE} PWM
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
    echo "ERROR: Export VPN client configuration failed." >&2
    exit $RESULT
 fi
-echo "" >> eapv-${DEPLOY_REGION}.ovpn
-echo "<cert>" >> eapv-${DEPLOY_REGION}.ovpn
-cat pki/issued/client.easy-aws-privacy-vpn.crt >> eapv-${DEPLOY_REGION}.ovpn
-echo "</cert>" >> eapv-${DEPLOY_REGION}.ovpn
-echo "" >> eapv-${DEPLOY_REGION}.ovpn
-echo "<key>" >> eapv-${DEPLOY_REGION}.ovpn
-cat pki/private/client.easy-aws-privacy-vpn.key >> eapv-${DEPLOY_REGION}.ovpn
-echo "</key>" >> eapv-${DEPLOY_REGION}.ovpn
+echo "" >> ${VPN_CONFIG_FILE}
+echo "<cert>" >> ${VPN_CONFIG_FILE}
+cat pki/issued/client.easy-aws-privacy-vpn.crt >> ${VPN_CONFIG_FILE}
+echo "</cert>" >> ${VPN_CONFIG_FILE}
+echo "" >> ${VPN_CONFIG_FILE}
+echo "<key>" >> ${VPN_CONFIG_FILE}
+cat pki/private/client.easy-aws-privacy-vpn.key >> ${VPN_CONFIG_FILE}
+echo "</key>" >> ${VPN_CONFIG_FILE}
 
 echo ""
 echo "Success!  Download:"
-echo "   - eapv-${DEPLOY_REGION}.ovpn"
-echo "   - eapv-${DEPLOY_REGION}-aws-backend.sh (Mac/Linux) *or* eapv-${DEPLOY_REGION}-aws-backend.bat (Windows)"
+echo "   - ${FILENAME_VPN_CONFIG_FILE}"
+echo "   - ${FILENAME_BACKEND_SCRIPT_BASH} (Mac/Linux) *or* ${FILENAME_BACKEND_SCRIPT_WINDOWS} (Windows)"
 echo ""
 
 echo "Success!"

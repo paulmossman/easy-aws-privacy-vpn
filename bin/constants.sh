@@ -38,6 +38,14 @@ export REGION_ACTIVE_STACK_NAME=eapv-region-active
 # The name of the AWS Profile to be created on the client machine.
 export CLIENT_PROFILE_NAME=easy-aws-privacy-vpn
 
+# The files to be downloaded.
+export FILENAME_VPN_CONFIG_FILE=eapv-${DEPLOY_REGION}.ovpn
+export VPN_CONFIG_FILE=../${FILENAME_VPN_CONFIG_FILE}
+export FILENAME_BACKEND_SCRIPT_BASH=eapv-${DEPLOY_REGION}-aws-backend.sh
+export BACKEND_SCRIPT_BASH=../${FILENAME_BACKEND_SCRIPT_BASH}
+export FILENAME_BACKEND_SCRIPT_WINDOWS=eapv-${DEPLOY_REGION}-aws-backend.bat
+export BACKEND_SCRIPT_WINDOWS=../${FILENAME_BACKEND_SCRIPT_WINDOWS}
+
 export ACCOUNT_ID=`aws sts get-caller-identity ${PROFILE_OPTION} --region ${DEPLOY_REGION} --output json | jq -r ".Account"`
 
 export S3_BUCKET_NAME="easy-aws-privacy-vpn-"${ACCOUNT_ID}
