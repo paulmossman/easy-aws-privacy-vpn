@@ -19,14 +19,15 @@ usage() {
    exit 2
 }
 
- help > /dev/null 2>&1
+# Ensure the AWS CLI is installed.
+aws help > /dev/null 2>&1
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
    echo "ERROR: You need to install the AWS CLI software first.  (If you already have, then close this terminal and open a new one.)" >&2
    exit $RESULT
 fi
 
-# Ensure that the EAPV AWS profile exists!
+# Ensure the EAPV AWS profile exists.
 aws configure list --profile ${CLIENT_PROFILE_NAME} > /dev/null 2>&1
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
@@ -45,7 +46,7 @@ status() {
       STATUS=`echo ${OUTPUT} | jq -r ".Stacks[0].StackStatus"`
    fi
 
-   echo -n "Stack '${REGION_ACTIVE_STACK_NAME}' status: "
+   echo -n "Stack '${REGION_ACTIVE_STACK_NAME}' in Region ${DEPLOY_REGION} status: "
    echo ${STATUS}
 }
 
@@ -58,6 +59,10 @@ stop() {
       echo "ERROR: Failed '${REGION_ACTIVE_STACK_NAME}' delete-stack, code=${RESULT}." >&2
       exit $RESULT
    fi
+   echo ""
+   echo "The AWS Backend is now stopping, but it will take some time."
+   echo "You can monitor the status with \"${SCRIPTNAME} status\"."
+   echo ""
 }
 
 stopwait() {
@@ -72,6 +77,8 @@ stopwait() {
       echo "ERROR: Failed '${REGION_ACTIVE_STACK_NAME}' stack wait stack-delete-complete" >&2
       exit $WAIT_STATUS
    fi
+   echo "Stopped."
+   echo "" 
 }
 
 # Start the AWS backend, and wait for it to be ready.
@@ -99,7 +106,7 @@ start () {
    fi
 
    echo ""
-   echo "Your Easy AWS Privacy VPN backend in the ${DEPLOY_REGION} Region is ready to use!"
+   echo "Your Easy AWS Privacy VPN AWS backend in the ${DEPLOY_REGION} Region is ready to use!"
    echo "Remember to run './${SCRIPTNAME} stop' when you're done!"
    echo ""
 
@@ -116,7 +123,6 @@ if [[ "$1" = "start" ]]; then
    start
 elif [[ "$1" = "stop" ]]; then
    stop
-   echo "You can monitor the AWS Backend status with \"${SCRIPTNAME} status\"."
 elif [[ "$1" = "status" ]]; then
    status
 elif [[ "$1" = "stopwait" ]]; then
