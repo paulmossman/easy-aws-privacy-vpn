@@ -53,7 +53,7 @@ status() {
 stop() {
 
    aws cloudformation delete-stack --stack-name ${REGION_ACTIVE_STACK_NAME} \
-      --region ${DEPLOY_REGION} --profile ${CLIENT_PROFILE_NAME} --output json 
+      --region ${DEPLOY_REGION} --profile ${CLIENT_PROFILE_NAME} --output json
    RESULT=$?
    if [ $RESULT -ne 0 ]; then
       echo "ERROR: Failed '${REGION_ACTIVE_STACK_NAME}' delete-stack, code=${RESULT}." >&2

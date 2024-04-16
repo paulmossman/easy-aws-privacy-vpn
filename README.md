@@ -103,6 +103,8 @@ Substitute "\<Region Code\>" for the Region Code you selected in the previous st
 
 The command in the previous step will list the names of the two files to download.  From CloudShell, for each of the two files,  select Actions → Download file → Enter file file name → click "Download".  The files will be downloaded to your browser's "Downloads" directory.
 
+In Windows your browser might warn about the ```.bat`` file.  Select "Keep" → "Keep anyway".
+
 #### 11. Create the AWS VPN Client profile
 
 Start the AWS VPN Client software, then:

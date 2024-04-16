@@ -2,9 +2,7 @@
 
 ## Windows eapv-<Region Code>-aws-backend.bat script file
 
-A version of the bash script that works on Windows.
-
-PowerShell scripts don't easily run from the command-line by default, so use a batch file.
+A robust version of the bash script that works on Windows.  (The existing .bat script is very rudimentary.)
 
 ## Include a new VPC in the per-Region setup
 
