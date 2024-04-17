@@ -1,6 +1,6 @@
 # Easy AWS Privacy VPN (EAPV)
 
-Easily setup a VPN via the AWS cloud for the privacy of your online traffic.  Comparable to commercial VPN providers like [NordVPN®](https://nordvpn.com), and the ["free"](./docs/Comparision.md#free-aws-ec2-openvpn-solution) AWS EC2 OpenVPN solution as described [here (YouTube)](https://www.youtube.com/watch?v=R82Peq5T9jQ) and [here (article)](https://aws.plainenglish.io/setting-up-a-free-vpn-server-in-aws-fd3e25f4f7ac).  See [here](./docs/Comparision.md) for a more detailed comparison of the solutions.
+Easily set up a VPN via the AWS cloud for the privacy of your online traffic.  Comparable to commercial VPN providers like [NordVPN®](https://nordvpn.com), and the ["free"](./docs/Comparision.md#free-aws-ec2-openvpn-solution) AWS EC2 OpenVPN solution as described [here (YouTube)](https://www.youtube.com/watch?v=R82Peq5T9jQ) and [here (article)](https://aws.plainenglish.io/setting-up-a-free-vpn-server-in-aws-fd3e25f4f7ac).  See [here](./docs/Comparision.md) for a more detailed comparison of the solutions.
 
 This solution costs 15.5¢ ($USD) per hour while you're using it.  Exception: Traffic over 100GB/month will also incur [data transfer costs](./docs/Comparision.md#aws-data-transfer).
 
