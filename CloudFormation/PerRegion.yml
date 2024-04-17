@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Per-Region configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+Description: "Per-Region configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/blob/main/README.md"
 
 Parameters:
 

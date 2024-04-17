@@ -1,10 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Per-Account configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+Description: "Per-Account configuration: https://github.com/paulmossman/easy-aws-privacy-vpn/blob/main/README.md"
 Resources:
 
   IAMManagedPolicy:
     Type: "AWS::IAM::ManagedPolicy"
-    Description: "Permissions required on the client computer for stating and stopping the AWS backend: https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+    Description: "Permissions required on the client computer for stating and stopping the AWS backend: https://github.com/paulmossman/easy-aws-privacy-vpn/blob/main/README.md"
     Properties:
       ManagedPolicyName: "easy-aws-privacy-vpn"
       # See ../docs/Security.md for details.

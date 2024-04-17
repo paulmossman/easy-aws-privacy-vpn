@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "ACTIVE backend ($0.105/hour): https://github.com/paulmossman/easy-aws-privacy-vpn/README.md"
+Description: "ACTIVE backend ($0.105/hour): https://github.com/paulmossman/easy-aws-privacy-vpn/blob/main/README.md"
 
 Parameters:
 
