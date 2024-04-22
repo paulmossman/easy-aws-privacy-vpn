@@ -51,4 +51,4 @@ After you've had your AWS account for 12 months, the AWS OpenVPN solution will c
 
 See the [AWS Free Tier FAQs](https://aws.amazon.com/free/free-tier-faqs/) for more details.
 
-The monthly total will be $13.09/month.  That's roughly the same cost as using Easy AWS Privacy VPN for 85 hours per month.
+The total will be $13.09/month.  That's roughly the same cost as using Easy AWS Privacy VPN for 85 hours per month.
