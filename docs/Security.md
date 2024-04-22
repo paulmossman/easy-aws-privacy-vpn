@@ -4,7 +4,7 @@
 
 You'll notice when creating the AWS access key for the IAM User that alternatives are recommended.  Easy AWS Privacy VPN does use "AWS CloudShell" alternative for most of its setup.
 
-These credentials are configured on your local computer so that you don't need to login to the AWS Console each time you start/stop the AWS backend.  As per the [security principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege), they have very limited permissions:
+These credentials are configured on your local computer so that you don't need to log in to the AWS Console each time you start/stop the AWS backend.  As per the [security principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege), they have very limited permissions:
 - Only on Client VPN endpoint(s) with the Tag Application=easy-aws-privacy-vpn:
   - Describe it
   - Describe, Create, and Delete its Target network (subnet) associations

@@ -6,7 +6,7 @@ This solution costs 15.5¢ ($USD) per hour while you're using it.  Exception: Tr
 
 And **if you remember to stop it properly when done** then it costs nothing while you're not using it.
 
-This solution is best suited for one-time or occassional use.  The downsides are that:
+This solution is best suited for one-time or occasional use.  The downsides are that:
 - it takes 6+ minutes to start the AWS backend before you can open a VPN session; and
 - you need to remember to stop the AWS backend when you're done so that it doesn't accrue costs while you're not using it.
 
@@ -144,7 +144,7 @@ Upon connecting the client session will cost 5¢/hour, in addition to the AWS ba
 
 #### 14. Check your IP (optional)
 
-Visit [https://www.whatismyip.com](https://www.whatismyip.com) again.  Your ISP should now be be "Amazon" or "AWS", and your location should match the Region that you're using.
+Visit [https://www.whatismyip.com](https://www.whatismyip.com) again.  Your ISP should now be "Amazon" or "AWS", and your location should match the Region that you're using.
 
 ### VPN Session Teardown Steps
 
@@ -164,7 +164,7 @@ eapv-<Region Code>-aws-backend.bat stop
 ```
 (Substitute "\<Region Code\>" for the Region Code.)
 
-This will also disconnect the AWS VPN Client session, but it will automatiacally try to re-establish the connection.  Simply click "Disconnect" and exit the application.
+This will also disconnect the AWS VPN Client session, but it will automatically try to re-establish the connection.  Simply click "Disconnect" and exit the application.
 
 If you only end the AWS VPN Client session then AWS will continue to charge you 10.5¢/hour while the backend is running.  So run the above "stop" script before you quit the AWS VPN Client or turn your computer off.
 
@@ -191,7 +191,7 @@ To teardown the configuration of a Region, in the AWS CloudShell run:
 
 ### Per-Account Teardown (optional)
 
-If you no longer want to use the Easy AWS Privacy VPN solution then you can remove it comeltely from your AWS account.  First teardown all Regions you've set up.  Then in the AWS CloudShell **in the Region where you first ran** ```region-setup.sh```, run:
+If you no longer want to use the Easy AWS Privacy VPN solution then you can remove it completely from your AWS account.  First teardown all Regions you've set up.  Then in the AWS CloudShell **in the Region where you first ran** ```account-setup.sh```, run:
 ```bash
 ./bin/account-teardown.sh
 ```

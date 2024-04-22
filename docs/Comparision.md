@@ -8,7 +8,7 @@
 | Simple session stop (no extra $ for forgetting to stop an AWS backend) | 🔴 | 🟢 | 🟢 |
 | Unlimited use for flat rate | 🔴 | 🟢 | 🟡 |
 | $0 when not in use | 🟢 | 🔴 | 🔴 |
-| Cheap for one-time or occassional use | 🟢 | 🔴 | 🟢/🔴 |
+| Cheap for one-time or occasional use | 🟢 | 🔴 | 🟢/🔴 |
 | Resilient (fewest [SPOF](https://en.wikipedia.org/wiki/Single_point_of_failure)) | 🟡 | 🟢 | 🔴 |
 
 # Cost
