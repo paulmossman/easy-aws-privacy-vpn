@@ -1,7 +1,7 @@
 #!/bin/bash
-SCRIPT=`realpath "$0"`
-SCRIPTPATH=`dirname "${SCRIPT}"`
-SCRIPTNAME=`basename "${SCRIPT}"`
+
+# This script is logically identical to the one with the same name, but different suffix.
+# i.e. Keep the two in sync.
 
 DEPLOY_REGION=SUB_DEPLOY_REGION
 VPC_ID=SUB_VPC_ID
@@ -12,12 +12,11 @@ REGION_ACTIVE_STACK_NAME=SUB_REGION_ACTIVE_STACK_NAME
 S3_BUCKET_NAME=SUB_S3_BUCKET_NAME
 S3_BUCKET_REGION=SUB_S3_BUCKET_REGION
 
-START_DATE=`date`
+SCRIPT=`realpath "$0"`
+SCRIPTPATH=`dirname "${SCRIPT}"`
+SCRIPTNAME=`basename "${SCRIPT}"`
 
-usage() {
-   echo "Usage: ${SCRIPTNAME} <start|stop|status>">&2
-   exit 2
-}
+START_TIME=`date +%R`
 
 # Ensure the AWS CLI is installed.
 aws help > /dev/null 2>&1
@@ -35,21 +34,24 @@ if [ $RESULT -ne 0 ]; then
    exit $RESULT
 fi
 
-status() {
-   
-   OUTPUT=`aws cloudformation describe-stacks --stack-name ${REGION_ACTIVE_STACK_NAME} \
-      --profile ${CLIENT_PROFILE_NAME} --region ${DEPLOY_REGION} \
-      --output json 2> /dev/null`
-   if [ $? -ne 0 ]; then
-      STATUS="Not running"
-   else
-      STATUS=`echo ${OUTPUT} | jq -r ".Stacks[0].StackStatus"`
-   fi
-
-   echo -n "Stack '${REGION_ACTIVE_STACK_NAME}' in Region ${DEPLOY_REGION} status: "
-   echo ${STATUS}
+usage() {
+   echo "Usage: ${SCRIPTNAME} <start|stop|status>">&2
+   exit 2
 }
 
+# Display the status of the AWS backend.
+status() {
+   
+   STATUS=`aws cloudformation describe-stacks --stack-name ${REGION_ACTIVE_STACK_NAME} \
+      --profile ${CLIENT_PROFILE_NAME} --region ${DEPLOY_REGION} \
+      --output json --query "Stacks[0].StackStatus" 2> /dev/null`
+   if [ $? -ne 0 ]; then
+      STATUS="Not running"
+   fi
+   echo Stack \'${REGION_ACTIVE_STACK_NAME}\' in Region ${DEPLOY_REGION} status: ${STATUS}
+}
+
+# Start the process of stopping the AWS backend, but don't wait for it to finish.
 stop() {
 
    aws cloudformation delete-stack --stack-name ${REGION_ACTIVE_STACK_NAME} \
@@ -61,10 +63,11 @@ stop() {
    fi
    echo ""
    echo "The AWS Backend is now stopping, but it will take some time."
-   echo "You can monitor the status with \"${SCRIPTNAME} status\"."
+   echo "You can monitor the status with '${SCRIPTNAME} status'."
    echo ""
 }
 
+# Start the process of stopping the AWS backend, and wait for it to finish.
 stopwait() {
 
    stop
@@ -78,7 +81,7 @@ stopwait() {
       exit $WAIT_STATUS
    fi
    echo "Stopped."
-   echo "" 
+   echo ""
 }
 
 # Start the AWS backend, and wait for it to be ready.
@@ -110,9 +113,9 @@ start () {
    echo "Remember to run './${SCRIPTNAME} stop' when you're done!"
    echo ""
 
-   END_DATE=`date`
-   # echo "Start: ${START_DATE}"
-   # echo "End  : ${END_DATE}"
+   END_TIME=`date +%R`
+   # echo "Start: ${START_TIME}"
+   # echo "End  : ${END_TIME}"
 }
 
 # Parse the command-line parameter.
@@ -129,5 +132,6 @@ elif [[ "$1" = "stopwait" ]]; then
    # Hidden option.  (Used when developing outside of CloudShell.)
    stopwait
 else
+   # If no match...
    usage
 fi

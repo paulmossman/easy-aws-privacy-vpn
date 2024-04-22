@@ -1,9 +1,5 @@
 # EAPV Roadmap
 
-## Windows eapv-<Region Code>-aws-backend.bat script file
-
-A robust version of the bash script that works on Windows.  (The existing .bat script is very rudimentary.)
-
 ## Include a new VPC in the per-Region setup
 
 User Story: As the person installing and configuring this solution I want to be able to successfully deploy it into a new VPC, so that I don't have to install it into a default-state VPC. 
