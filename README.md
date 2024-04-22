@@ -8,7 +8,7 @@ And **if you remember to stop it properly when done** then it costs nothing whil
 
 This solution is best suited for one-time or occassional use.  The downsides are that:
 - it takes 6+ minutes to start the AWS backend before you can open a VPN session; and
-- you need to remember to stop the AWS backend when you're done so that it doesn't acrue costs while you're not using it.
+- you need to remember to stop the AWS backend when you're done so that it doesn't accrue costs while you're not using it.
 
 ## Steps
 
