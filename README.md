@@ -10,6 +10,12 @@ This solution is best suited for one-time or occasional use.  The downsides are 
 - it takes 6+ minutes to start the AWS backend before you can open a VPN session; and
 - you need to remember to stop the AWS backend when you're done so that it doesn't accrue costs while you're not using it.
 
+It doesn't require in-depth knowledge of AWS.  You can do this.
+
+## Issues, Questions, or Feedback?
+
+Email me: paul.mossman at gmail.com (replace "at" with @).
+
 ## Steps
 
 ### Optional
@@ -200,4 +206,4 @@ If you no longer want to use the Easy AWS Privacy VPN solution then you can remo
 
 ## SSL Certificate Expiry
 
-The Region configuration uses an SSL certificate that expires 825 days from creation.  When it expires simply teardown the Region configuration, then set it up again from scratch.
+The Region configuration creates an SSL certificate that expires in 825 days, which is the maximum.  When it expires simply teardown the Region configuration, then set it up again from scratch.
