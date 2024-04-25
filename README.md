@@ -156,7 +156,7 @@ Visit [https://www.whatismyip.com](https://www.whatismyip.com) again.  Your ISP 
 
 Follow these steps every time you're done using the VPN.
 
-#### Stop the AWS backend
+#### 15. Stop the AWS backend
 
 On your **local computer** run:
 
@@ -174,7 +174,9 @@ This will also disconnect the AWS VPN Client session, but it will automatically 
 
 If you only end the AWS VPN Client session then AWS will continue to charge you 10.5¢/hour while the backend is running.  So run the above "stop" script before you quit the AWS VPN Client or turn your computer off.
 
-#### Check the status of the AWS backend (optional)
+It will take some time for the AWS backend to finish stopping.
+
+#### 16. Check the status of the AWS backend (optional)
 
 To check the status of the AWS backend run:
 
@@ -188,9 +190,17 @@ eapv-<Region Code>-aws-backend.bat status
 ```
 (Substitute "\<Region Code\>" for the Region Code.)
 
+When the status is ```Not running``` then the AWS backend (and its 10.5¢/hour cost) has been stopped.
+
+### Starting and stopping a VPN session
+
+Whenever you want to start a VPN Session again, re-run Steps [#12](#12-start-the-aws-backend) and [#13](#13-start-the-aws-vpn-client-session).
+
+Then when you're finished, re-run Steps [#15](#15-stop-the-aws-backend) and [#16](#16-check-the-status-of-the-aws-backend-optional) to stop the charges.
+
 ### Per-Region Teardown (optional)
 
-To teardown the configuration of a Region, in the AWS CloudShell run:
+Do this if you don't want to use a Region anymore.  (Note: If you've properly stopped the AWS backend, then leaving the Region configuraiton in place has no cost.)  To teardown the configuration of a Region, in the AWS CloudShell run:
 ```bash
 ./bin/region-teardown.sh  <Region Code>
 ```
