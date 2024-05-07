@@ -42,7 +42,7 @@ Follow [these steps](https://aws.amazon.com/free).  A credit card is required.
 
 Then sign in to the [AWS Console](https://us-east-1.console.aws.amazon.com/console).  
 
-If you already have an AWS account you can probably use it, but this solution relies on a default-state VPC.  If you're using the default VPC in the target Region consider instead creating an [AWS Organization account](https://docs.aws.amazon.com/organizations/).
+(If you already have an AWS account you can probably use it, but this solution relies on a default-state VPC.  If you're using the default VPC in the target Region for something else, consider instead creating an [AWS Organization account](https://docs.aws.amazon.com/organizations/).)
 
 #### 4. Open a CloudShell terminal
 
@@ -91,7 +91,7 @@ Decide which [AWS Region](https://aws.amazon.com/about-aws/global-infrastructure
 
 #### 8. Get the Region Code
 
-See [this table](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions).  For example ```us-east-1``` for N. Virginia.
+See [this table](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions).  For example ```us-east-1``` for North Virginia, or ```ca-central-1``` for Central Canada.
 
 If your Region's **Opt-in status** is "Required" then you need to enable it first.  See "AWS Regions" [here](https://us-east-1.console.aws.amazon.com/billing/home#/account).
 
