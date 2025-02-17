@@ -63,11 +63,11 @@ fi
 rm -rf pki
 export EASYRSA_BATCH=1
 ./easy-rsa/easyrsa3/easyrsa init-pki > /dev/null
-./easy-rsa/easyrsa3/easyrsa build-ca nopass --days ${MAX_SSL_CERT_DAYS} > /dev/null 2> /dev/null
-./easy-rsa/easyrsa3/easyrsa --san=DNS:easy-aws-privacy-vpn.server build-server-full server.easy-aws-privacy-vpn \
-   nopass --days ${MAX_SSL_CERT_DAYS} > /dev/null 2> /dev/null
-./easy-rsa/easyrsa3/easyrsa build-client-full client.easy-aws-privacy-vpn nopass --days ${MAX_SSL_CERT_DAYS} > /dev/null 2> /dev/null
-# Note: Unfortunately the SSL output get sent to stderr.  These commands aren't likely to produce actual errors
+./easy-rsa/easyrsa3/easyrsa --days=${MAX_SSL_CERT_DAYS} build-ca nopass > /dev/null 2> /dev/null
+./easy-rsa/easyrsa3/easyrsa --days=${MAX_SSL_CERT_DAYS} --san=DNS:easy-aws-privacy-vpn.server build-server-full server.easy-aws-privacy-vpn \
+   nopass > /dev/null 2> /dev/null
+./easy-rsa/easyrsa3/easyrsa --days=${MAX_SSL_CERT_DAYS} build-client-full client.easy-aws-privacy-vpn nopass > /dev/null 2> /dev/null
+# Note: Unfortunately the SSL output gets sent to stderr.  These commands aren't likely to produce actual errors
 # though, so suppressing stderr shouldn't be a problem.
 
 # Import the ACM Certificates manually, since there's doesn't seem to be a way to do it using CloudFormation...
