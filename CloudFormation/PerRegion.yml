@@ -24,27 +24,27 @@ Resources:
       DnsServers: # Google Public DNS (https://developers.google.com/speed/public-dns)
       - "8.8.8.8"
       - "8.8.4.4"
-      AuthenticationOptions: 
-      - 
+      AuthenticationOptions:
+      -
         Type: "certificate-authentication"
-        MutualAuthentication: 
+        MutualAuthentication:
           ClientRootCertificateChainArn: !Ref ClientCertificateArn
-      ConnectionLogOptions: 
+      ConnectionLogOptions:
         Enabled: false
-      TagSpecifications: 
-      - 
+      TagSpecifications:
+      -
         ResourceType: "client-vpn-endpoint"
-        Tags: 
+        Tags:
         - Key: "Name"
           Value: "easy-aws-privacy-vpn"
         - Key: "Application"
           Value: "easy-aws-privacy-vpn"
       VpnPort: 443
-      SecurityGroupIds: 
+      SecurityGroupIds:
       - !Ref SecurityGroupId
       VpcId: !Ref VpcId
       SplitTunnel: false
-      ClientConnectOptions: 
+      ClientConnectOptions:
         Enabled: false
 
   InternetAccessVpnAuthorizationRule:
