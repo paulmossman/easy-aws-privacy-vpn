@@ -21,6 +21,9 @@ Resources:
       ClientCidrBlock: "172.32.0.0/22"
       TransportProtocol: "udp"
       ServerCertificateArn: !Ref ServerCertificateArn
+      DnsServers: # Google Public DNS (https://developers.google.com/speed/public-dns)
+      - "8.8.8.8"
+      - "8.8.4.4"
       AuthenticationOptions: 
       - 
         Type: "certificate-authentication"
