@@ -20,8 +20,10 @@ fi
 # Requires DEPLOY_REGION and (if running outside of CloudShell) PROFILE.
 source ${SCRIPTPATH}/constants.sh
 
-aws s3 rm ${S3_BUCKET_URI}/RegionVpnActivate.yml --region ${DEPLOY_REGION} ${PROFILE_OPTION} > /dev/null
+# Force delete everything in the S3 bucket.
+aws s3 rm ${S3_BUCKET_URI} --recursive --region ${DEPLOY_REGION} ${PROFILE_OPTION} > /dev/null
 
+# Delete the bucket itself.
 aws cloudformation delete-stack --stack-name ${ACCOUNT_CONFIG_STACK_NAME} --output json ${PROFILE_OPTION} --region ${DEPLOY_REGION}
 wait_stack_delete_complete ${ACCOUNT_CONFIG_STACK_NAME}
 
