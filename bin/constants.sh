@@ -29,7 +29,7 @@ then
    exit 1
 fi
 
-export MAX_SSL_CERT_DAYS=825
+export MAX_SSL_CERT_DAYS=30000
 
 export ACCOUNT_CONFIG_STACK_NAME=eapv-account-configuration
 export REGION_CONFIG_STACK_NAME=eapv-region-configuration

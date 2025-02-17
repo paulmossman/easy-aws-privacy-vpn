@@ -211,9 +211,3 @@ If you no longer want to use the Easy AWS Privacy VPN solution then you can remo
 ```bash
 ./bin/account-teardown.sh
 ```
-
-# Limitations
-
-## SSL Certificate Expiry
-
-The Region configuration creates an SSL certificate that expires in 825 days, which is the maximum.  When it expires simply teardown the Region configuration, then set it up again from scratch.
